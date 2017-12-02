@@ -105,6 +105,8 @@ class Phaser {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-phaser-loader.php';
 
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-phaser-create-svg.php';
+
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
@@ -116,11 +118,16 @@ class Phaser {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-phaser-admin.php';
 
+
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-phaser-public.php';
+
+
+		
+
 
 		$this->loader = new Phaser_Loader();
 
@@ -157,6 +164,8 @@ class Phaser {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
+		$this->loader->add_action( 'add_attachment', $plugin_admin, 'render_svg_on_upload', 1, 50 );
+
 	}
 
 	/**
@@ -169,10 +178,11 @@ class Phaser {
 	private function define_public_hooks() {
 
 		$plugin_public = new Phaser_Public( $this->get_plugin_name(), $this->get_version() );
+		
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-
+		
 	}
 
 	/**
