@@ -57,6 +57,11 @@ class Phaser {
 	 */
 	protected $version;
 
+	private $option_fill;
+	private $option_stroke;
+	private $option_backend_create;
+	private $option_frontend_show;
+
 	/**
 	 * Define the core functionality of the plugin.
 	 *
@@ -73,12 +78,15 @@ class Phaser {
 			$this->version = '1.0.0';
 		}
 		$this->plugin_name = 'phaser';
+		$this->option_fill = get_option('phaser_fill_hex');
+		$this->option_stroke = get_option('phaser_stroke_hex');
+		$this->option_backend_create = get_option('phaser_create_svg_bool');
+		$this->option_frontend_show = get_option('phaser_show_svg_bool');
 
 		$this->load_dependencies();
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
-
 	}
 
 	/**
@@ -170,7 +178,7 @@ class Phaser {
 		$this->loader->add_action( 'admin_init', $plugin_admin_options, 'add_options_page_group' );
 
 		// render if enabled
-		$enable_svg_rendering = get_option( 'phaser_create_svg_bool' );
+		$enable_svg_rendering = $this->option_backend_create;
 		if( 'on' === $enable_svg_rendering ) {
 			$this->loader->add_action( 'add_attachment', $plugin_admin, 'render_svg_on_upload', 1, 50 );
 		}
@@ -186,15 +194,15 @@ class Phaser {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new Phaser_Public( $this->get_plugin_name(), $this->get_version() );
-		
-
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-
 		// show if enabled
-		$enable_svg_rendering = get_option( 'phaser_show_svg_bool' );
-		if( 'on' == $enable_svg_rendering ) {
+		// cut down on http requests
+
+		$enable_svg_rendering = $this->option_frontend_show;
+		if( 'on' === $enable_svg_rendering ) {
+			$plugin_public = new Phaser_Public( $this->get_plugin_name(), $this->get_version(), $this->option_fill, $this->option_stroke );
+			
+			$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
+			$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 			$this->loader->add_filter( 'post_thumbnail_html', $plugin_public, 'show_svg_with_featured', 99, 5 );
 		}
 		

@@ -40,6 +40,9 @@ class Phaser_Public {
 	 */
 	private $version;
 
+	private $option_fill;
+	private $option_stroke;
+
 	/**
 	 * Initialize the class and set its properties.
 	 *
@@ -47,10 +50,12 @@ class Phaser_Public {
 	 * @param      string    $plugin_name       The name of the plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct( $plugin_name, $version, $fill_option, $stroke_option ) {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
+		$this->option_fill = $fill_option;
+		$this->option_stroke = $stroke_option;
 
 	}
 
@@ -76,12 +81,15 @@ class Phaser_Public {
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/phaser-public.css', array(), $this->version, 'all' );
 
 		// options from options page
-		$fill_color = get_option( 'phaser_fill_hex' );
-		$stroke_color = get_option( 'phaser_stroke_hex' );
+		$fill_color = $this->option_fill;
+		$stroke_color = $this->option_stroke;
+
+		///// I wonder how often this is used ////
 		$css = '.cbw-phaser-load-container path { ';
-		$css_end = '}';
 		$fill_css = 'fill:#' . $fill_color . ';';
 		$stroke_css = 'stroke:#' . $stroke_color . ';';
+		$css_end = '}';
+		/////
 		if ( '' !== $fill_color && !empty( $fill_color ) ) {
 			$css .= $fill_css;
 		}
@@ -92,6 +100,7 @@ class Phaser_Public {
 		$css .= $css_end;
         
         wp_add_inline_style( $this->plugin_name, $css );
+        //////////////////////////////////////////
 
 	}
 
