@@ -35,13 +35,13 @@ class Phaser_Create_SVG {
 		return get_attached_file( $id );
 	}
 
-	public function get_small_image_path( $id ) {
-		$image_meta =  wp_get_attachment_metadata( $id ); 
+	public function get_small_image_path( $path, $new_meta ) {
+		$image_meta =  $new_meta;
 		$file = $image_meta['file'];
 		$small_file = $image_meta['sizes']['medium']['file'];
-		$path = pathinfo( $file );
-		$date = preg_replace('#[^/]*$#', '', $file);
-		return $date . $small_file;
+		$original_path = pathinfo( $path );
+		$smaller_path = pathinfo( $small_file );
+		return $original_path['dirname'] . '/' . $smaller_path['filename'] . '.' . $original_path['extension'];
 	}
 
 	public function get_image_data( $id, $path ) {
@@ -52,7 +52,10 @@ class Phaser_Create_SVG {
 		}
 		$mimetype = $this->get_mime( $path );
 		$new_meta = wp_get_attachment_metadata( $id );
+		$small_size_path = $this->get_small_image_path( $path, $new_meta );
 		$new_meta['mime'] = $mimetype;
+		$new_meta['smaller_svg_filepath'] = $small_size_path;
+		
 		return $new_meta;
 	}
 
@@ -76,12 +79,12 @@ class Phaser_Create_SVG {
 		// } 
 	}
 
-	public function create_svg( $file_path, $meta ) {
+	public function create_svg( $meta ) {
 
 		$render = $this->pot;
-		$render->loadImageFromFile( $file_path );
+		$render->loadImageFromFile( $meta['smaller_svg_filepath'] );
 		$render->process();
-		$output = $render->getSVG(0.3);
+		$output = $render->getSVG( 0.3 );
 
 		$this->place_svg( $meta['file'], $output );
 

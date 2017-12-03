@@ -119,7 +119,7 @@ class Phaser_Admin {
 		*/
 
 		//update_option('phaser_settings', $svg_util->create_svg( $path, $meta ));
-		$svg_util->create_svg( $path, $meta );
+		$svg_util->create_svg( $meta );
 	}
 
 }

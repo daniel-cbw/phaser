@@ -182,6 +182,8 @@ class Phaser {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+
+		$this->loader->add_filter( 'post_thumbnail_html', $plugin_public, 'show_svg_with_featured', 99, 5 );
 		
 	}
 

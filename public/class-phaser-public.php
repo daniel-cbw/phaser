@@ -100,4 +100,49 @@ class Phaser_Public {
 
 	}
 
+	public function show_svg_with_featured($html, $post_id, $post_thumbnail_id, $size, $attr) {
+		$src = wp_get_attachment_image_src(get_post_thumbnail_id(), $size);
+		$svg_path = $this->get_svg_path( $post_thumbnail_id );
+		$svg = $this->get_svg( $svg_path );
+		$classes = $this->get_svg_classes( '', $svg );
+		$html = '<div class="cbw-phaser-load-container">';
+		$html .= $svg;
+		$html .= '<img alt="" src="' . $src['0'] . '" data-alt="" class="wp-post-image ' . $classes . '" />';
+		$html .= '</div>';
+		return $html;
+	}
+
+	public function get_svg_path( $post_thumbnail_id ) {
+		$svg_util = new Phaser_Create_SVG();
+		$path = $svg_util->get_image_path( $post_thumbnail_id );
+		$pathinfo = pathinfo($path);
+		$svg_name = $pathinfo['filename'] . '-svg.svg';
+		$svg_path = $pathinfo['dirname'] . '/' . $svg_name;
+		return $svg_path;
+	}
+
+	public function get_svg( $svg_path ) {
+		$svg = '';
+		try{
+		    $svg = file_get_contents( $svg_path );
+		}catch(Exception $ex){
+		    $svg = '';
+		}
+
+		return $svg;
+	}
+
+	public function get_svg_classes( $classes, $svg ) {
+		$classes = array();
+		if ( '' !== $svg ) {
+			//$classes = 'cbw-phaser-selector cbw-phaser-loading';
+			array_push( $classes , 'cbw-phaser-selector' );
+			array_push( $classes , 'cbw-phaser-loading' );
+		}
+		return implode( ' ', $classes );
+	}
+
+
+
+
 }
