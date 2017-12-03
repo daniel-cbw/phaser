@@ -1,5 +1,3 @@
-// small toggle function for showing / hiding using VelocityJS from triggers on data-attributes
-
 // IIFE - Immediately Invoked Function Expression
 // namespaced (globally)
 (function(cbwPhaserPublic, $, undefined ) {
@@ -11,12 +9,12 @@
 	$(function() {
 
 		if ( $( trigger ).length ) {
-			phaser.loadSVGs( trigger );
+			phaser.loadImages( trigger );
 		}
 		
 	});
 
-	phaser.loadSVGs = function( trigger ) {
+	phaser.loadImages = function( trigger ) {
 
 		 $( trigger ).each(function(){
 		 	if (this.complete) {
