@@ -117,6 +117,7 @@ class Phaser {
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-phaser-admin.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-phaser-admin-options.php';
 
 
 		/**
@@ -160,11 +161,19 @@ class Phaser {
 	private function define_admin_hooks() {
 
 		$plugin_admin = new Phaser_Admin( $this->get_plugin_name(), $this->get_version() );
-
+		$plugin_admin_options = new Phaser_Admin_Options( $this->get_plugin_name(), $this->get_version() );
+		//Admin general
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		// Admin options
+		$this->loader->add_action( 'admin_menu', $plugin_admin_options, 'add_options_page' );
+		$this->loader->add_action( 'admin_init', $plugin_admin_options, 'add_options_page_group' );
 
-		$this->loader->add_action( 'add_attachment', $plugin_admin, 'render_svg_on_upload', 1, 50 );
+		// render if enabled
+		$enable_svg_rendering = get_option( 'phaser_create_svg_bool' );
+		if( 'on' === $enable_svg_rendering ) {
+			$this->loader->add_action( 'add_attachment', $plugin_admin, 'render_svg_on_upload', 1, 50 );
+		}
 
 	}
 
@@ -183,7 +192,11 @@ class Phaser {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
-		$this->loader->add_filter( 'post_thumbnail_html', $plugin_public, 'show_svg_with_featured', 99, 5 );
+		// show if enabled
+		$enable_svg_rendering = get_option( 'phaser_show_svg_bool' );
+		if( 'on' == $enable_svg_rendering ) {
+			$this->loader->add_filter( 'post_thumbnail_html', $plugin_public, 'show_svg_with_featured', 99, 5 );
+		}
 		
 	}
 

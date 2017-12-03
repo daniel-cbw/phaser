@@ -75,6 +75,24 @@ class Phaser_Public {
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/phaser-public.css', array(), $this->version, 'all' );
 
+		// options from options page
+		$fill_color = get_option( 'phaser_fill_hex' );
+		$stroke_color = get_option( 'phaser_stroke_hex' );
+		$css = '.cbw-phaser-load-container path { ';
+		$css_end = '}';
+		$fill_css = 'fill:#' . $fill_color . ';';
+		$stroke_css = 'stroke:#' . $stroke_color . ';';
+		if ( '' !== $fill_color && !empty( $fill_color ) ) {
+			$css .= $fill_css;
+		}
+		if ( '' !== $stroke_color && !empty( $stroke_color ) ) {
+			$css .= $stroke_css;
+		}
+
+		$css .= $css_end;
+        
+        wp_add_inline_style( $this->plugin_name, $css );
+
 	}
 
 	/**

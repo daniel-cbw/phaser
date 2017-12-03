@@ -51,11 +51,6 @@ class Phaser_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
-		if ( !get_option( 'phaser_settings' ) ) {
-			update_option('phaser_settings', '' );
-		}
-
 	}
 
 	/**
