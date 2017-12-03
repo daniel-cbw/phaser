@@ -29,13 +29,19 @@
 	<table>
 	     
 		<tr>
-			<th>Input a Hexidecimal color string for SVG Fill</th>
+			<td>
+				<b>Input a Hexidecimal color string for SVG Fill Color</b><br>
+				<i><b>Example:</b> a0d6b4</i>
+			</td>
 		</tr>
 	    <tr>
 	        <td><input type="text" placeholder="Hex Color" name="phaser_fill_hex" value="<?php echo esc_attr( get_option('phaser_fill_hex') ); ?>" size="50" /></td>
 	    </tr>
 		<tr>
-			<th>Input a Hexidecimal color string for SVG Stroke ( probably looks better empty )</th>
+			<td>
+				<b>Input a Hexidecimal color string for SVG Stroke Color</b><br>
+				<i><b>Example:</b> a0d6b4</i>
+			</td>
 		</tr>
 	    <tr>
 	        <td><input type="text" placeholder="Hex Color" name="phaser_stroke_hex" value="<?php echo esc_attr( get_option('phaser_stroke_hex') ); ?>" size="50" /></td>

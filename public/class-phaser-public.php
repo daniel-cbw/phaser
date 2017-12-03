@@ -128,7 +128,7 @@ class Phaser_Public {
 	}
 
 	public function show_svg_with_featured($html, $post_id, $post_thumbnail_id, $size, $attr) {
-		$src = wp_get_attachment_image_src(get_post_thumbnail_id(), $size);
+		$src = wp_get_attachment_image_src(get_post_thumbnail_id(), 'large');
 		$svg_path = $this->get_svg_path( $post_thumbnail_id );
 		$svg = $this->get_svg( $svg_path );
 		$classes = $this->get_svg_classes( '', $svg );
@@ -162,7 +162,6 @@ class Phaser_Public {
 	public function get_svg_classes( $classes, $svg ) {
 		$classes = array();
 		if ( '' !== $svg ) {
-			//$classes = 'cbw-phaser-selector cbw-phaser-loading';
 			array_push( $classes , 'cbw-phaser-selector' );
 			array_push( $classes , 'cbw-phaser-loading' );
 		}

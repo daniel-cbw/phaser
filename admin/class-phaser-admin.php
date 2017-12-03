@@ -99,6 +99,12 @@ class Phaser_Admin {
 
 	}
 
+	// show SVGs in Media Library 
+	public function svg_mime($mime_types){
+	    $mime_types['svg'] = 'image/svg+xml'; //Adding svg extension
+	    return $mime_types;
+	}
+
 	public function render_svg_on_upload( $attachment_ID ) {
 
 		$svg_util = new Phaser_Create_SVG();
