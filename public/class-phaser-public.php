@@ -143,7 +143,7 @@ class Phaser_Public {
 		$svg_util = new Phaser_Create_SVG();
 		$path = $svg_util->get_image_path( $post_thumbnail_id );
 		$pathinfo = pathinfo($path);
-		$svg_name = $pathinfo['filename'] . '-svg.svg';
+		$svg_name = $pathinfo['filename'] . '-phaser.svg';
 		$svg_path = $pathinfo['dirname'] . '/' . $svg_name;
 		return $svg_path;
 	}

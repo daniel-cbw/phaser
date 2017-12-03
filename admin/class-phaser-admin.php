@@ -95,32 +95,31 @@ class Phaser_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/phaser-admin.js', array( 'jquery' ), $this->version, false );
+		wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/phaser-admin.js', array( 'jquery' ), $this->version, false );
+		wp_localize_script( $this->plugin_name, 'phaser_admin',
+	        array( 
+	            'ajaxurl' => admin_url( 'admin-ajax.php' )
+	        )
+	    );
+	    wp_enqueue_script( $this->plugin_name );
 
-	}
-
-	// show SVGs in Media Library 
-	public function svg_mime($mime_types){
-	    $mime_types['svg'] = 'image/svg+xml'; //Adding svg extension
-	    return $mime_types;
 	}
 
 	public function render_svg_on_upload( $attachment_ID ) {
-
 		$svg_util = new Phaser_Create_SVG();
 		$path = $svg_util->get_image_path( $attachment_ID );
-		
-		
 		$meta = $svg_util->get_image_data( $attachment_ID, $path );
-		//update_option('phaser_settings', imagecreatefromjpeg($path));
-		/*
-		[width] => 128
-		[height] => 228
-		[file] => 2017/12/magento_solution_specialist_360-1.png
-		*/
-
-		//update_option('phaser_settings', $svg_util->create_svg( $path, $meta ));
 		$svg_util->create_svg( $meta );
 	}
+
+	public function render_svg_ajax() {
+		$attachment_ID = $_POST['attachment_ID'];
+		$this->render_svg_on_upload( $attachment_ID );
+		echo 'success';
+		die();
+		
+	}
+
+
 
 }

@@ -96,9 +96,13 @@ class Phaser_Create_SVG {
 
 		$path = pathinfo( $file_name );
 
-		$name = $path['filename'] . '-svg.svg';
+		$name = $path['filename'] . '-phaser.svg';
+		try{
+		    file_put_contents( $upload_dir . $name, $data );
+		}catch(Exception $ex){
 
-		file_put_contents( $upload_dir . $name, $data );
+		}
+		
 	}
 
 }

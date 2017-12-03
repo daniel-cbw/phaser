@@ -173,8 +173,7 @@ class Phaser {
 		//Admin general
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
-		$this->loader->add_action( 'upload_mimes', $plugin_admin, 'svg_mime' );
-		
+
 		// Admin options
 		$this->loader->add_action( 'admin_menu', $plugin_admin_options, 'add_options_page' );
 		$this->loader->add_action( 'admin_init', $plugin_admin_options, 'add_options_page_group' );
@@ -184,6 +183,9 @@ class Phaser {
 		if( 'on' === $enable_svg_rendering ) {
 			$this->loader->add_action( 'add_attachment', $plugin_admin, 'render_svg_on_upload', 1, 50 );
 		}
+
+		// enable manual ajax rendering
+		$this->loader->add_action( 'wp_ajax_render_svg_ajax', $plugin_admin, 'render_svg_ajax' );
 
 	}
 

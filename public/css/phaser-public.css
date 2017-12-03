@@ -23,10 +23,10 @@
  	height: auto;
  	display: block;
 
- 	-webkit-transition: opacity 0.3s ease-in;
-       -moz-transition: opacity 0.3s ease-in;
-         -o-transition: opacity 0.3s ease-in;
-            transition: opacity 0.3s ease-in;
+ 	-webkit-transition: opacity 0.150s ease-in;
+       -moz-transition: opacity 0.150s ease-in;
+         -o-transition: opacity 0.150s ease-in;
+            transition: opacity 0.150s ease-in;
  }
  .cbw-phaser-load-container .cbw-phaser-selector.cbw-phaser-loading { opacity: 0; }
  .cbw-phaser-load-container .cbw-phaser-selector.cbw-phaser-complete,
